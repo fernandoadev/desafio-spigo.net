@@ -16,7 +16,7 @@ session_start();
     <?php
     include_once('read.php');
     $buscaBio = new Read();
-    $buscaBio->fullRead("SELECT id, nome, estado, biografia FROM usuario ORDER BY id DESC");
+    $buscaBio->fullRead("SELECT id, nome, estado, biografia, created FROM usuario ORDER BY id DESC");
     $ResultabuscaBio = $buscaBio->getResultado();
     ?>
 
@@ -58,6 +58,7 @@ session_start();
                 <table class="mdl-data-table mdl-js-data-table">
                     <thead>
                         <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Criado em</th>
                             <th class="mdl-data-table__cell--non-numeric">ID</th>
                             <th class="mdl-data-table__cell--non-numeric">Nome</th>
                             <th>Estado</th>
@@ -72,6 +73,7 @@ session_start();
                             foreach ($ResultabuscaBio as $bio) {
                                 extract($bio);
                             ?>
+                                <td class="mdl-data-table__cell--non-numeric"><?php echo date('d/m/Y', strtotime($created)); ?></td>
                                 <td class="mdl-data-table__cell--non-numeric"><?php echo $id;  ?></td>
                                 <td class="mdl-data-table__cell--non-numeric"><?php echo $nome;  ?></td>
                                 <td><?php echo $estado;  ?></td>
