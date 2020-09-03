@@ -20,7 +20,7 @@ if (isset($dados)) {
 
       }else {
 
-        $_SESSION['msg'] = "<div class='alert alert-success'>Não foi possivel cadastrar a biografia no momento, tente namente mais tarde</div>";
+        $_SESSION['msg'] = "<div class='alert alert-danger'>Não foi possivel cadastrar a biografia no momento, tente namente mais tarde</div>";
         header('location: index.php');
 
       }

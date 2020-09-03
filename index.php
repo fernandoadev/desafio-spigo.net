@@ -10,6 +10,7 @@ session_start();
     <title>Cadastro de Briografia</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="css/personalizado.css">
 </head>
 
 <body>
@@ -37,16 +38,17 @@ session_start();
                     <input name="biografia" class="mdl-textfield__input" type="text" maxlength="300" required>
                     <label class="mdl-textfield__label" for="sample1">Sua briografia</label>
                 </div><br>
-                <input type="submit" value="Cadastrar Bio" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                <input type="submit" value="Cadastrar Bio" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored btn-success">
             </form><br>
         </div>
-        <?php
-        if (isset($_SESSION['msg'])) {
-            echo $_SESSION['msg'];
-            unset($_SESSION['msg']);
-        }
-        ?>
-
+        <div class="mdl-cell mdl-cell--12-col" style="text-align:center;">
+            <?php
+            if (isset($_SESSION['msg'])) {
+                echo $_SESSION['msg'];
+                unset($_SESSION['msg']);
+            }
+            ?>
+        </div>
         <div class="mdl-cell mdl-cell--12-col" style="text-align:center;">
             <h3>Biografias</h3>
         </div>
@@ -58,7 +60,7 @@ session_start();
                 <table class="mdl-data-table mdl-js-data-table">
                     <thead>
                         <tr>
-                        <th class="mdl-data-table__cell--non-numeric">Criado em</th>
+                            <th class="mdl-data-table__cell--non-numeric">Criado em</th>
                             <th class="mdl-data-table__cell--non-numeric">ID</th>
                             <th class="mdl-data-table__cell--non-numeric">Nome</th>
                             <th>Estado</th>
@@ -78,8 +80,9 @@ session_start();
                                 <td class="mdl-data-table__cell--non-numeric"><?php echo $nome;  ?></td>
                                 <td><?php echo $estado;  ?></td>
                                 <td class="mdl-data-table__cell--non-numeric"><?php echo $biografia;  ?></td>
-                                <td class="mdl-data-table__cell--non-numeric"><a href="<?php echo 'deletarbio.php?id=' . $id ?>" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">X</a></td>
-                                <td class="mdl-data-table__cell--non-numeric"><a href="<?php echo 'editarbio.php?id=' . $id ?>" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">Editar</a></td>
+                                <td class="mdl-data-table__cell--non-numeric"><a href="<?php echo 'deletarbio.php?id=' . $id ?>" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent btn-danger">X</a></td>
+                                <td class="mdl-data-table__cell--non-numeric"><a id="<?php echo 'show-dialog' . $id ?>" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent show-modal btn-warning btn-editar" data-linha-id="<?php echo $id ?>">Editar</a></td>
+
                         </tr>
                     <?php
                             } ?>
@@ -89,16 +92,49 @@ session_start();
             <?php
 
         } else {
-            echo "<div style='background-color:white; height: 200px;' class='container'>";
-            echo "<div style='margin-bottom: 0;' class='alert alert-warning text-center'>OBS: Ainda não existe nenhuma biografia cadastrada!</div>";
+            echo "<div style='background-color:white; height: 200px;' class='mdl-cell mdl-cell--12-col'>";
+            echo "<div style='margin-bottom: 0; text-align: center;' class='alert alert-warning'>OBS: Ainda não existe nenhuma biografia cadastrada!</div>";
             echo "</div>";
         }
             ?>
             </div>
 
 
+            <?php foreach ($ResultabuscaBio as $bio) : ?>
+                <?php extract($bio); ?>
+                <dialog id="<?php echo 'modal' . $id ?>" class="mdl-dialog" style="text-align: center;">
+                    <h5 class="mdl-dialog__title">Editar Bio de <?php echo $nome ?></h5>
+                    <div class="mdl-dialog__content">
+                        <form action="editarbio.php" method="POST">
+                            <input name="id" class="mdl-textfield__input" type="hidden" maxlength="100" value="<?php echo $id ?>">
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <label>Nome</label>
+                                <input name="nome" class="mdl-textfield__input" type="text" maxlength="100" value="<?php echo $nome ?>">
+                            </div><br>
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <label>Estado</label>
+                                <input name="estado" class="mdl-textfield__input" type="text" maxlength="100" value="<?php echo $estado ?>">
+                            </div><br>
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <label>Biografia</label>
+                                <input name="biografia" class="mdl-textfield__input" type="text" maxlength="100" value="<?php echo $biografia ?>">
+                            </div><br>
+                            <input type="submit" value="Editar" class="mdl-button btn-success">
+                        </form>
+                    </div>
+                    <div class="mdl-dialog__actions">
+                        <button type="button" class="mdl-button close">Cancelar</button>
+                    </div>
+                </dialog>
+
+            <?php endforeach; ?>
+
+
+
+
 
             <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+            <script defer src="js/personalizado.js"></script>
 </body>
 
 </html>

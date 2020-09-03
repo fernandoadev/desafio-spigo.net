@@ -19,7 +19,7 @@ if (isset($id)){
 
        }else {
 
-        $_SESSION['msg'] = "<div class='alert alert-success'>Não foi possivel deletar a biografia !</div>";
+        $_SESSION['msg'] = "<div class='alert alert-danger'>Não foi possivel deletar a biografia !</div>";
         header('location: index.php');
 
        }
